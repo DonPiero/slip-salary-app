@@ -2,17 +2,17 @@ import logging
 from pathlib import Path
 
 try:
-    LOG_DIR = Path("/data/logs")
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    logs_directory = Path(__file__).resolve().parents[2] / "data" / "logs"
+    logs_directory.mkdir(parents=True, exist_ok=True)
 
-    LOG_FILE = LOG_DIR / "app.log"
+    logs_file = logs_directory / "app.log"
 
     logger = logging.getLogger("slip_salary_app")
     logger.setLevel(logging.WARN)
 
     formatter = logging.Formatter("%(levelname)s - %(message)s")
 
-    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler = logging.FileHandler(logs_file)
     file_handler.setFormatter(formatter)
 
     if not logger.handlers:

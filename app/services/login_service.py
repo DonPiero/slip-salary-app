@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.repositories.user_repository import get_user_by_email
 from app.core.security import verify_password, create_access_token
-from app.core.logging import logger
+from app.core.loging import logger
 
 
 async def login(db: AsyncSession, email: str, password: str) -> dict | None:

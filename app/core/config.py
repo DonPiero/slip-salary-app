@@ -1,9 +1,12 @@
-from pydantic_settings import BaseSettings
+from pathlib import Path
 
-from app.core.logging import logger
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from app.core.loging import logger
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=Path(__file__).resolve().parents[2] / ".env")
+
     database_async: str
     database_sync: str
 
@@ -16,8 +19,6 @@ class Settings(BaseSettings):
     smtp_user: str
     smtp_password: str
 
-    class Config:
-        env_file = ".env"
 
 try:
     settings = Settings()
