@@ -20,7 +20,7 @@ async def generate_csv(db: AsyncSession, manager_id: int) -> Path | None:
             logger.warning(f"No employees found for manager ID: {manager_id}")
             return None
 
-        export_directory = Path(__file__).resolve().parents[2] / "data" / "export" / "csv"
+        export_directory = Path(__file__).resolve().parents[2] / "data" / "export" / f"manager_{manager_id}" / "csv"
         export_directory.mkdir(parents=True, exist_ok=True)
         file_path = export_directory / f"manager_{manager_id}.csv"
 

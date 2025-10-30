@@ -29,7 +29,7 @@ async def generate_pdf(db: AsyncSession, employee_id: int) -> Path | None:
 
         salary = next((s for s in salary_records if s.month == month and s.year == year), None)
 
-        export_directory = Path(__file__).resolve().parents[2] / "data" / "export" / "pdf"
+        export_directory = Path(__file__).resolve().parents[2] / "data" / "export" / f"manager_{employee.manager_id}" / "pdf"
         export_directory.mkdir(parents=True, exist_ok=True)
         file_path = export_directory / f"employee_{employee.id}.pdf"
 
