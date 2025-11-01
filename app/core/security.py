@@ -5,18 +5,18 @@ from passlib.context import CryptContext
 from app.core.config import settings
 from app.core.loging import logger
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+hasher = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password: str) -> str | None:
     try:
-        return pwd_context.hash(password)
+        return hasher.hash(password)
     except Exception as e:
         logger.error(f"Password hashing failed: {e}")
         return None
 
 def verify_password(plain_password: str, hashed_password: str) -> bool | None:
     try:
-        return pwd_context.verify(plain_password, hashed_password)
+        return hasher.verify(plain_password, hashed_password)
     except Exception as e:
         logger.error(f"Password verification failed: {e}")
         return None

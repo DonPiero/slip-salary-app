@@ -1,7 +1,7 @@
 from pathlib import Path
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from app.core.loging import logger
+
+from app.api.errors import error_500
 
 
 class Settings(BaseSettings):
@@ -23,4 +23,4 @@ class Settings(BaseSettings):
 try:
     settings = Settings()
 except Exception as e:
-    logger.error(f"Failed to load settings: {e}")
+    error_500(f"Failed to load configuration settings: {e}.")

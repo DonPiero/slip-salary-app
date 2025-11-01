@@ -6,8 +6,10 @@ from app.core.config import settings
 from app.core.loging import logger
 
 
-def send_email(role: str, to: str, path: Path) -> bool:
+def send_email(role: str, to: str, manager_id: int, entity_id: int) -> bool:
     try:
+        base_directory = Path(__file__).resolve().parents[2] / "data" / "export" / f"manager_{manager_id}"
+
         if role.lower().strip() == "manager":
             subject = "Monthly Employee Report"
             body = (
@@ -17,6 +19,8 @@ def send_email(role: str, to: str, path: Path) -> bool:
                 "Best regards,\n"
                 "Slip Salary App"
             )
+            path = base_directory / "csv" / f"manager_{entity_id}.csv"
+
         elif role.lower() == "employee":
             subject = "Monthly Payslip"
             body = (
@@ -26,6 +30,8 @@ def send_email(role: str, to: str, path: Path) -> bool:
                 "Best regards,\n"
                 "Slip Salary App"
             )
+            path = base_directory / "pdf" / f"employee_{entity_id}.pdf"
+
         else:
             logger.warning(f"Unknown role {role} can't be recognized")
             return False
@@ -36,7 +42,7 @@ def send_email(role: str, to: str, path: Path) -> bool:
         msg["Subject"] = subject
         msg.set_content(body)
 
-        if path and path.exists():
+        if path.exists():
             with open(path, "rb") as f:
                 data = f.read()
                 msg.add_attachment(
@@ -47,6 +53,7 @@ def send_email(role: str, to: str, path: Path) -> bool:
                 )
         else:
             logger.warning(f"Path does not exist to attach to email for: {to}")
+            return False
 
         with smtplib.SMTP_SSL(settings.smtp_host, settings.smtp_port) as server:
             server.login(settings.smtp_user, settings.smtp_password)
