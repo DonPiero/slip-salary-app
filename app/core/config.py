@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     database_async: str
     database_sync: str
 
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
+
     jwt_secret_key: str
     jwt_algorithm: str
     jwt_expiration_minutes: int

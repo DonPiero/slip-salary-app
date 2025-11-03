@@ -1,7 +1,31 @@
+import json
 from datetime import datetime
+from pathlib import Path
 
+from app.core.loging import logger
 
-idempotency_checker: set[str] = set()
+IDEMPOTENCY_FILE = Path(__file__).resolve().parents[2] / "data" / "idempotency" /"idempotency.json"
+
+def save_checker():
+    try:
+        IDEMPOTENCY_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(IDEMPOTENCY_FILE, "w", encoding="utf-8") as f:
+            json.dump(list(idempotency_checker), f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logger.error(f"Failed to save idempotency checker: {e}")
+
+def load_checker() -> set[str]:
+    try:
+        if not IDEMPOTENCY_FILE.exists():
+            return set()
+        with open(IDEMPOTENCY_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return set(data)
+    except Exception as e:
+        logger.error(f"Failed to load idempotency checker: {e}")
+        return set()
+
+idempotency_checker: set[str] = load_checker()
 
 def check_duplicate(manager_id: int, file_type: str, action: str) -> bool:
     now = datetime.now()
@@ -10,6 +34,8 @@ def check_duplicate(manager_id: int, file_type: str, action: str) -> bool:
         return True
 
     idempotency_checker.add(key)
+    save_checker()
+
     return False
 
 def check_creation(manager_id: int, file_type: str) -> bool:

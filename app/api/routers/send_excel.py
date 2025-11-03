@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.api.deps import get_role
+from app.api.deps import get_manager
 from app.api.errors import error_400, error_409, error_500
 from app.services.archive_service import archive_exported_files
 from app.services.email_service import send_email
@@ -10,7 +10,7 @@ router = APIRouter(prefix="", tags=["csv"])
 
 
 @router.post("/sendAggregatedEmployeeData")
-async def send_aggregated_employee_data(current_manager = Depends(get_role)):
+async def send_aggregated_employee_data(current_manager = Depends(get_manager)):
     try:
         if not check_creation(current_manager.id, "csv"):
             error_400("The file has not been created yet.")

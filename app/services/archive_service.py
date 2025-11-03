@@ -26,7 +26,7 @@ def archive_exported_files(manager_id: int) -> Path | None:
                 if file.is_file():
                     zipf.write(file, arcname=file.relative_to(export_directory))
 
-        logger.warn(f"Archive triggered for manager {manager_id}.")
+        logger.warning(f"Archive triggered for manager {manager_id}.")
         shutil.rmtree(export_directory)
         return archive_path
 
