@@ -1,0 +1,118 @@
+:root{
+  --muted: black;
+  --text: black;
+  --primary: royalblue;
+  --primary-strong: steelblue;
+  --danger: red;
+  --success: green;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: radial-gradient(azure 0%, bisque 100%);
+  color: var(--text);
+}
+
+.app-container {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  background: radial-gradient(tan 0%, wheat 100%);
+  border: 1px solid black;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px black;
+  padding: 20px;
+}
+
+.card h1, .card h2{
+  margin: 15px;
+  font-weight: 600;
+}
+
+.card h3 {
+  margin: 30px 15px;
+  font-weight: 500;
+}
+
+.muted { color: var(--muted); }
+
+.form {
+  display: grid;
+  gap: 20px;
+  margin: 20px;
+}
+
+.input {
+  padding: 15px;
+  background: mintcream;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: var(--text);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 5px black;
+}
+
+.btn {
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: radial-gradient(var(--primary-strong) 0%, var(--primary) 100%);
+  color: white;
+}
+
+.btn-danger {
+  background: radial-gradient(red 0%, crimson 100%);
+  border: none;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.btn:hover:not(:disabled) {
+  filter: brightness(1);
+  transform: translateY(-1px);
+  transition: all 0.1s ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.9);
+  transition: all 0.1s ease;
+}
+
+.actions {
+  display: grid;
+  gap: 10px;
+  margin: 20px;
+}
+
+.status {
+  margin: 15px;
+  font-weight: 600;
+}
+
+.logout {
+  margin: 1rem 2rem;
+  text-align: center;
+}
+
+.status.ok    { color: var(--success); }
+.status.error { color: var(--danger); }
+
+.hidden { display: none; }
+.center { text-align: center; }
+
+

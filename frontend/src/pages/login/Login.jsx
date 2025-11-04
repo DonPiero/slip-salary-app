@@ -38,44 +38,35 @@ export default function Login({ setUser }) {
 
 
   return (
-    <div style={{ maxWidth: "400px", margin: "4rem auto", textAlign: "center" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
+    <div className="app-container">
+      <div className="card">
+        <h1 className="center">Connect to your account</h1>
+        <form className="form" onSubmit={handleSubmit}>
           <input
+            className="input"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: "100%", padding: "0.5rem" }}
           />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
+
           <input
+            className="input"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: "100%", padding: "0.5rem" }}
           />
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "0.5rem",
-            background: "#007bff",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
-      </form>
+
+          {error && <p className="status error">{error}</p>}
+
+          <button className="btn btn-primary" type="submit">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

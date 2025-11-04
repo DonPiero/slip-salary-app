@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function Home({ user, setUser }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem("user");
@@ -12,7 +13,7 @@ export default function Home({ user, setUser }) {
 
   async function handleAction(endpoint, label) {
       setLoading(true);
-    setMessage(`Running: ${label}...`);
+      setMessage(`Running: ${label}...`);
 
     try {
       const response = await fetch(`http://localhost:8000/${endpoint}`, {
@@ -26,7 +27,6 @@ export default function Home({ user, setUser }) {
       if (!response.ok) {
         const err = await response.text();
         setMessage(`${label} failed: ${err}.`);
-        setLoading(false);
         return;
       }
 
@@ -40,62 +40,72 @@ export default function Home({ user, setUser }) {
   }
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
-      {isManager ? (
-        <div style={{ marginTop: "1.5rem" }}>
-          <h3>Manager Dashboard</h3>
-          <p>You can use the actions below to manage salary slips:</p>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.5rem",
-              marginTop: "1rem",
-            }}
-          >
-            <button disabled={loading}
-              onClick={() => handleAction("createAggregatedEmployeeData", "Create Excel file")}>
-              Create Excel
-            </button>
-            <button disabled={loading}
-              onClick={() => handleAction("createPdfForEmployees", "Create PDF files")}>
-              Create PDF
-            </button>
-            <button disabled={loading}
-              onClick={() => handleAction("sendAggregatedEmployeeData", "Send Excel file")}>
-              Send Excel
-            </button>
-            <button disabled={loading}
-              onClick={() => handleAction("sendPdfToEmployees", "Send PDF files")}>
-              Send PDF
-            </button>
-          </div>
-          {message && (
-            <p
-              style={{
-                marginTop: "1rem",
-                fontWeight: "bold",
-                color: message.startsWith("Accomplished")
-                  ? "green"
-                  : "red"
-              }}
-            >
-              {message}
+    <div className="app-container">
+      <div className="card">
+        {isManager ? (
+          <>
+            <h1 className="center">Manager Dashboard</h1>
+            <p className="muted center">
+              You may use the actions below to manage your employees' salary slips:
             </p>
-          )}
-        </div>
-      ) : (
-        <div style={{ marginTop: "1.5rem" }}>
-          <h3>Employee Portal</h3>
-          <p>Hello, {user.email}! <br/>
-             Your manager will make sure your salary slip arrives by email.</p>
-        </div>
-      )}
 
-      <div style={{ marginTop: "2rem" }}>
-        <button onClick={handleLogout} style={{ padding: "0.5rem 1rem" }}>
-          Logout
-        </button>
+            <div className="actions">
+              <button
+                className="btn btn-primary"
+                disabled={loading}
+                onClick={() => handleAction("createAggregatedEmployeeData", "Create Excel file")}
+              >
+                Create Excel
+              </button>
+              <button
+                className="btn btn-primary"
+                disabled={loading}
+                onClick={() => handleAction("createPdfForEmployees", "Create PDF files")}
+              >
+                Create PDF
+              </button>
+              <button
+                className="btn btn-primary"
+                disabled={loading}
+                onClick={() => handleAction("sendAggregatedEmployeeData", "Send Excel file")}
+              >
+                Send Excel
+              </button>
+              <button
+                className="btn btn-primary"
+                disabled={loading}
+                onClick={() => handleAction("sendPdfToEmployees", "Send PDF files")}
+              >
+                Send PDF
+              </button>
+            </div>
+
+            {message && (
+              <p
+                className={`status ${
+                  message.startsWith("Accomplished") ? "ok" : "error"
+                } center`}
+              >
+                {message}
+              </p>
+            )}
+          </>
+        ) : (
+          <>
+            <h1 className="center">Employee Portal</h1>
+            <h3 className="muted center">
+              Hello, {user.email}! <br />
+              Your manager will make sure your salary slip arrives by email as soon as possible, not later than the end of the month. <br />
+              If you have any questions, please contact your HR department.
+            </h3>
+          </>
+        )}
+
+        <div className="logout">
+          <button className="btn btn-danger" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );
