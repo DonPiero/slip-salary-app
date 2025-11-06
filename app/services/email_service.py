@@ -59,6 +59,7 @@ def send_email(role: str, to: str, manager_id: int, entity_id: int) -> bool:
             server.login(settings.smtp_user, settings.smtp_password)
             server.send_message(msg)
 
+        logger.warning(f"Email sent to {to}, which belongs to {role.lower().strip()} {entity_id}.")
         return True
 
     except Exception as e:

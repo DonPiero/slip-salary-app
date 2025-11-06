@@ -70,6 +70,7 @@ async def generate_pdf(db: AsyncSession, employee_id: int) -> Path | None:
             logger.warning(f"PDF generated, but encryption failed for: {employee.id}")
             return None
 
+        logger.warning(f"PDF files generated for employee {employee_id}.")
         return file_path
 
     except Exception as e:

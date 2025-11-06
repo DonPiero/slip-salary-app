@@ -49,6 +49,7 @@ async def generate_csv(db: AsyncSession, manager_id: int) -> Path | None:
                     salary.vacation_days
                 ])
 
+        logger.warning(f"CSV file generated for manager {manager_id}.")
         return file_path
 
     except Exception as e:
